@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation  API Testing of CRUD operations on Trello board
+Documentation      API Testing of CRUD operations on Trello board
 Library  RequestsLibrary
 Library  JSONLibrary
 Library  Collections
