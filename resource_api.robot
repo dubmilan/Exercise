@@ -21,7 +21,7 @@ Create New Board
     ${response}=  POST On Session  trello_session  /1/boards/  data=${body}
     ${id}=  Get Value From Json  ${response.json()}  id  
     ${id}=  Get From List   ${id}  0
-    Set Test Variable    ${BOARD ID}     ${id}   
+    Set Suite Variable    ${BOARD ID}     ${id}   
     Status Should Be  200  ${response} 
     ${name}=  Get Name of Dashboard from Response    ${response}
     Should be Equal    ${BOARD NAME}    ${name}
