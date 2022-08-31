@@ -18,3 +18,6 @@ ${ADD_TO_BASKET_BTN}          pd-buy-button
 ${CONTINUE_TO_SHOPPING}       upsellingContinueWithShopping
 ${SHOPPING_BASKET_ICON}       xpath://a[@title="Shopping Basket"] 
 ${PRODUCT_PRICE_BASKET}     xpath:(//*[contains(@class, ' infoProduct')]/following-sibling::div[1]//span[1])[INDEX_CHANGE_ME]
+${PRODUCT_CODE}             xpath://span[text()="Code:"]/parent::span
+${SEARCH FIELD}              xpath://input[@type='search']
+${SEARCH RESULT PAGE PRICE}    xpath:(//p[@class='price'])[1]//strong

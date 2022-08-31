@@ -59,7 +59,7 @@ Verify Products Are Sorted by Price from High to Low
 
 Add Requested products to Basket
     [Documentation]    Add ${NUMBER OF TESTING PRODUCTS} Products to the basket
-    Set Test Variable    @{Products Names In Category}    0
+    Set Test Variable    @{Product codes}    0    
     FOR    ${i}    IN RANGE    1     ${NUMBER OF TESTING PRODUCTS INDEX}
         ${index}    Convert To String    ${i}
         Add Product to Basket    ${index}
@@ -86,6 +86,8 @@ Add Product to Basket
     [Documentation]    Add product from category screen to the basket    
     [Arguments]    ${index}    
     Click to nth Product    ${index}
+    ${code}    Get Text    ${PRODUCT_CODE} 
+    Append To List     ${Product codes}    ${code} 
     Custom Click to Element    ${ADD_TO_BASKET_BTN}
     Custom Click to Element    ${CONTINUE_TO_SHOPPING}
     Go Back   
@@ -117,3 +119,24 @@ _Return Selenium Locator For nth Product
     Element Should Be Visible    ${loc}    message=Product does not exists ${index}
 
     [Return]    ${loc}
+
+Search Product and Get Price
+    [Arguments]    ${code}
+    Input Text    ${SEARCH FIELD}    ${code}    Clear = true
+    Press Keys    ${SEARCH FIELD}    ENTER
+    Get Price of Product in Search Result Page    
+
+Get Price of Product in Search Result Page
+    ${Product Price}    Get Text    ${SEARCH RESULT PAGE PRICE}
+    ${Product Price}     Evaluate    "${Product Price}".split("£")[1]
+    ${Product Price}    Convert To Number    ${Product Price}
+    Append To List     ${Products Price In SRP}    ${Product Price} 
+
+Compare Prices from Basket and SRP
+    Set Test Variable    @{Products Price In SRP}      0    
+    FOR    ${i}    IN RANGE    1     ${NUMBER OF TESTING PRODUCTS INDEX}
+        Search Product and Get Price    ${Product codes}[${i}]
+        Should Be Equal    ${Products Price In SRP}[${i}]   ${Products Price In Basket}[${i}]  
+    END      
+
+
