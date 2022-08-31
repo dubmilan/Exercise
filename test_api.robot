@@ -6,7 +6,6 @@ Resource          resource_api.robot
 
 *** Test Cases ***
 CRUD Operations on Trello Board
-# Full scenario
     Create New Board
     Verify Board Exist
     Update Board Name And Add Description
