@@ -27,6 +27,7 @@ Create New Board
     Should be Equal    ${BOARD NAME}    ${name}
 
 Get Board
+    [Arguments]    ${id}
     Create Session  trello_session  ${SERVER}    verify=true 
     &{body}=  Create Dictionary    key=${KEY}    token=${TOKEN}
     &{header}=  Create Dictionary  Content-Type=application/json
@@ -34,7 +35,7 @@ Get Board
     [Return]    ${response}
 
 Verify Board Exist
-    ${response}=    Get Board
+    ${response}=    Get Board    ${BOARD ID}
     Status Should Be  200  ${response} 
     ${name}=  Get Name of Dashboard from Response    ${response}
     Should be Equal    ${BOARD NAME}    ${name}     
@@ -50,7 +51,7 @@ Update Board Name And Add Description
     Should be Equal    ${ADDED DESCRIPTION}    ${desc} 
 
 Verify Board Updated
-    ${response}=    Get Board
+    ${response}=    Get Board    ${BOARD ID}
     Status Should Be  200  ${response} 
     ${name}=  Get Name of Dashboard from Response    ${response}
     ${desc}=  Get Description of Dashboard from Response    ${response}      
@@ -64,7 +65,7 @@ Delete Board
     Status Should Be  200  ${response} 
 
 Verify Board Not Exists
-    ${response}=    Get Board
+    ${response}=    Get Board    ${BOARD ID}
     Status Should Be  404  ${response}   
 
 Get Name of Dashboard from Response
@@ -79,3 +80,13 @@ Get Description of Dashboard from Response
     ${desc}=  Get From List   ${desc}  0   
     [Return]     ${desc}  
 
+Delete Not Existing Board
+    Create Session  trello_session  ${SERVER}    verify=true 
+    &{body}=  Create Dictionary    key=${KEY}    token=${TOKEN}
+    ${response}=  DELETE On Session  trello_session  /1/boards/1  data=${body}    expected_status=400
+    Status Should Be  400  ${response} 
+
+Update Not Existing Board
+    Create Session  trello_session  ${SERVER}    verify=true 
+    &{body}=  Create Dictionary    key=${KEY}    token=${TOKEN}    name=${NEW BOARD NAME}    desc=${ADDED DESCRIPTION}
+    ${response}=  PUT On Session  trello_session  /1/boards/  data=${body}    expected_status=404

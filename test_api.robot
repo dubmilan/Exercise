@@ -26,3 +26,10 @@ Update Existing Board
 Delete Board
     Delete Board
     Verify Board Not Exists
+
+Negative Test - Update Not Existing Board
+    Update Not Existing Board
+    Verify Board Not Exists     
+
+Negative Test - Delete Not Existing Board
+    Delete Not Existing Board
