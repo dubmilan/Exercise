@@ -73,14 +73,7 @@ Verify Products With Correct Price Are In The Basket
         Get Price of nth Product in Basket    ${index}
         Should Be Equal    ${Products Price In Category}[${i}]   ${Products Price In Basket}[${i}]  
     END  
-
-Click to nth Product
-    [Documentation]    Click to nth product on category screen
-    [Arguments]    ${index}
-
-    ${loc}=    _Return Selenium Locator For nth Product    ${PRODUCT}    ${index}
-    Custom Click to Element    ${loc}  
-
+    Compare Prices from Basket and SRP
 
 Add Product to Basket
     [Documentation]    Add product from category screen to the basket    
@@ -108,19 +101,15 @@ Get Price of nth Product in Basket
     ${Product Price n}    Convert To Number    ${Product Price}
     Append To List     ${Products Price In Basket}    ${Product Price n} 
 
-_Return Selenium Locator For nth Product
-    # I know this is not nice solution, but I am new in Robot and dont know how to easy replace index in xpath
-    [Documentation]    Prepare exact locator for product by index
-    [Arguments]    ${LOCATOR}    ${index}
-
-    # change the placeholder with the actual product index
-    ${loc}=    Replace String    ${LOCATOR}    INDEX_CHANGE_ME    ${index}
-    Wait Until Element Is Visible    ${loc}
-    Element Should Be Visible    ${loc}    message=Product does not exists ${index}
-
-    [Return]    ${loc}
+Compare Prices from Basket and SRP
+    Set Test Variable    @{Products Price In SRP}      0    
+    FOR    ${i}    IN RANGE    1     ${NUMBER OF TESTING PRODUCTS INDEX}
+        Search Product and Get Price    ${Product codes}[${i}]
+        Should Be Equal    ${Products Price In SRP}[${i}]   ${Products Price In Basket}[${i}]  
+    END 
 
 Search Product and Get Price
+    [Documentation]    Search product and get its price displayed on search result page
     [Arguments]    ${code}
     Input Text    ${SEARCH FIELD}    ${code}    Clear = true
     Press Keys    ${SEARCH FIELD}    ENTER
@@ -132,11 +121,23 @@ Get Price of Product in Search Result Page
     ${Product Price}    Convert To Number    ${Product Price}
     Append To List     ${Products Price In SRP}    ${Product Price} 
 
-Compare Prices from Basket and SRP
-    Set Test Variable    @{Products Price In SRP}      0    
-    FOR    ${i}    IN RANGE    1     ${NUMBER OF TESTING PRODUCTS INDEX}
-        Search Product and Get Price    ${Product codes}[${i}]
-        Should Be Equal    ${Products Price In SRP}[${i}]   ${Products Price In Basket}[${i}]  
-    END      
+Click to nth Product
+    [Documentation]    Click to nth product on category screen
+    [Arguments]    ${index}
+
+    ${loc}=    _Return Selenium Locator For nth Product    ${PRODUCT}    ${index}
+    Custom Click to Element    ${loc}  
+
+_Return Selenium Locator For nth Product
+    # I know this is not nice solution, but I am new in Robot and dont know how to easy replace index in xpath
+    [Documentation]    Prepare exact locator for product by index
+    [Arguments]    ${LOCATOR}    ${index}
+
+    # change the placeholder with the actual product index
+    ${loc}=    Replace String    ${LOCATOR}    INDEX_CHANGE_ME    ${index}
+    Wait Until Element Is Visible    ${loc}
+    Element Should Be Visible    ${loc}    message=Product does not exists ${index}
+
+    [Return]    ${loc}     
 
 
