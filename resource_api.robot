@@ -1,5 +1,5 @@
 *** Settings ***
-Documentation      API Testing of CRUD operations on Trello board
+Documentation      A resource file with reusable keywords and variables for API Trello
 Library  RequestsLibrary
 Library  JSONLibrary
 Library  Collections
