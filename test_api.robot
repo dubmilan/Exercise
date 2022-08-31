@@ -24,7 +24,7 @@ CRUD Operations for Labels on Trello Board
     Delete First Label
     Verify First Label Deleted and Second Exist
     Delete Board
-    Verify Both labels Not Exists
+    Verify Both Labels Not Exists
     Verify Create Label on Not Existing Board Is Not Possible
 
 Negative Test - Update Not Existing Board

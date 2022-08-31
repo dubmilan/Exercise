@@ -26,7 +26,7 @@ Create New Board
     ${id}=  Get From List   ${id}  0
     Set Suite Variable    ${BOARD ID}     ${id}   
     Status Should Be  200  ${response} 
-    ${name}=  Get Value from Response    ${response}    name
+    ${name}=  _Get Value from Response    ${response}    name
     Should be Equal    ${BOARD NAME}    ${name}
 
 Get Board
@@ -40,7 +40,7 @@ Get Board
 Verify Board Exist
     ${response}=    Get Board    ${BOARD ID}
     Status Should Be  200  ${response} 
-    ${name}=  Get Value from Response    ${response}    name
+    ${name}=  _Get Value from Response    ${response}    name
     Should be Equal    ${BOARD NAME}    ${name}     
   
 Update Board Name And Add Description
@@ -48,16 +48,16 @@ Update Board Name And Add Description
     &{body}=  Create Dictionary    key=${KEY}    token=${TOKEN}    name=${NEW BOARD NAME}    desc=${ADDED DESCRIPTION}
     ${response}=  PUT On Session  trello_session  /1/boards/${BOARD ID}  data=${body}
     Status Should Be  200  ${response} 
-    ${name}=  Get Value from Response    ${response}    name
-    ${desc}=  Get Value from Response    ${response}    desc    
+    ${name}=  _Get Value from Response    ${response}    name
+    ${desc}=  _Get Value from Response    ${response}    desc    
     Should be Equal    ${NEW BOARD NAME}    ${name} 
     Should be Equal    ${ADDED DESCRIPTION}    ${desc} 
 
 Verify Board Updated
     ${response}=    Get Board    ${BOARD ID}
     Status Should Be  200  ${response} 
-    ${name}=  Get Value from Response    ${response}    name
-    ${desc}=  Get Value from Response    ${response}    desc    
+    ${name}=  _Get Value from Response    ${response}    name
+    ${desc}=  _Get Value from Response    ${response}    desc    
     Should be Equal    ${NEW BOARD NAME}    ${name}
     Should be Equal    ${ADDED DESCRIPTION}    ${desc}         
 
@@ -69,13 +69,7 @@ Delete Board
 
 Verify Board Not Exists
     ${response}=    Get Board    ${BOARD ID}
-    Status Should Be  404  ${response}   
-
-Get Value from Response
-    [Arguments]    ${response}    ${par}
-    ${desc}=  Get Value From Json  ${response.json()}  ${par} 
-    ${desc}=  Get From List   ${desc}  0   
-    [Return]     ${desc}      
+    Status Should Be  404  ${response}         
 
 Delete Not Existing Board
     Create Session  trello_session  ${SERVER}    verify=true 
@@ -103,8 +97,8 @@ Create Label on Existing Board
     ${id}=  Get Value From Json  ${response.json()}  id  
     ${id}=  Get From List   ${id}  0
     Set Suite Variable    ${LABEL ID}     ${id}      
-    ${name}=  Get Value from Response    ${response}    name    
-    ${color}=  Get Value from Response    ${response}    color    
+    ${name}=  _Get Value from Response    ${response}    name    
+    ${color}=  _Get Value from Response    ${response}    color    
     Should be Equal    ${LABEL NAME}    ${name}
     Should be Equal    ${LABEL Color}    ${color}   
 
@@ -137,10 +131,10 @@ Update Label Color
 Verify Label Color Updated and Nothing Else Changed
     ${response}=  Get Label of Board    ${LABEL ID} 
     Status Should Be  200  ${response}
-    ${name}=  Get Value from Response    ${response}    name    
-    ${color}=  Get Value from Response    ${response}    color  
-    ${id}=  Get Value from Response    ${response}    id    
-    ${idBoard}=  Get Value from Response    ${response}    idBoard       
+    ${name}=  _Get Value from Response    ${response}    name    
+    ${color}=  _Get Value from Response    ${response}    color  
+    ${id}=  _Get Value from Response    ${response}    id    
+    ${idBoard}=  _Get Value from Response    ${response}    idBoard       
     Should be Equal    ${LABEL NAME}    ${name}
     Should be Equal    ${NEW LABEL Color}    ${color}   
     Should be Equal    ${LABEL ID}    ${id}
@@ -161,22 +155,24 @@ Get Label of Board
 Verify Label Exists with Correct Data
     ${response}=  Get Label of Board    ${LABEL ID} 
     Status Should Be  200  ${response}
-    Check Label Response Contains Correct data    ${response}
+    ${name}=  _Get Value from Response    ${response}    name    
+    ${color}=  _Get Value from Response    ${response}    color  
+    ${id}=  _Get Value from Response    ${response}    id    
+    ${idBoard}=  _Get Value from Response    ${response}    idBoard       
+    Should be Equal    ${LABEL NAME}    ${name}
+    Should be Equal    ${LABEL Color}    ${color}   
+    Should be Equal    ${LABEL ID}    ${id}
+    Should be Equal    ${BOARD ID}    ${idBoard}
 
 
-Verify Both labels Not Exists
+Verify Both Labels Not Exists
     ${response}=  Get Label of Board    ${LABEL ID} 
     Status Should Be  404  ${response}
     ${response}=  Get Label of Board    ${NEW LABEL ID} 
     Status Should Be  404  ${response}    
 
-Check Label Response Contains Correct data
-    [Arguments]    ${response}
-    ${name}=  Get Value from Response    ${response}    name    
-    ${color}=  Get Value from Response    ${response}    color  
-    ${id}=  Get Value from Response    ${response}    id    
-    ${idBoard}=  Get Value from Response    ${response}    idBoard       
-    Should be Equal    ${LABEL NAME}    ${name}
-    Should be Equal    ${LABEL Color}    ${color}   
-    Should be Equal    ${LABEL ID}    ${id}
-    Should be Equal    ${BOARD ID}    ${idBoard}         
+_Get Value from Response
+    [Arguments]    ${response}    ${par}
+    ${desc}=  Get Value From Json  ${response.json()}  ${par} 
+    ${desc}=  Get From List   ${desc}  0   
+    [Return]     ${desc}
