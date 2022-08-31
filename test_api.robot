@@ -6,6 +6,7 @@ Resource          resource_api.robot
 
 *** Test Cases ***
 CRUD operations on Trello board
+# Full scenario
     Create New Board
     Verify Board Exist
     Update Board Name And Add Description
@@ -13,6 +14,7 @@ CRUD operations on Trello board
     Delete Board
     Verify Board Not Exists
 
+# Splitted full scenario to 3 TCs
 Create new Board
     Create New Board
     Verify Board Exist
