@@ -14,19 +14,6 @@ CRUD operations on Trello board
     Delete Board
     Verify Board Not Exists
 
-# Splitted full scenario to 3 TCs
-Create new Board
-    Create New Board
-    Verify Board Exist
-
-Update Existing Board
-    Update Board Name And Add Description
-    Verify Board Updated
-
-Delete Board
-    Delete Board
-    Verify Board Not Exists
-
 Negative Test - Update Not Existing Board
     Update Not Existing Board
     Verify Board Not Exists         #PUT will not create new board    
