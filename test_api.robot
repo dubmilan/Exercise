@@ -29,7 +29,7 @@ Delete Board
 
 Negative Test - Update Not Existing Board
     Update Not Existing Board
-    Verify Board Not Exists     
+    Verify Board Not Exists         #PUT will not create new board    
 
 Negative Test - Delete Not Existing Board
     Delete Not Existing Board
