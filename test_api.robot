@@ -5,7 +5,7 @@ Resource          resource_api.robot
 
 
 *** Test Cases ***
-CRUD operations on Trello board
+CRUD Operations on Trello Board
 # Full scenario
     Create New Board
     Verify Board Exist
@@ -13,6 +13,19 @@ CRUD operations on Trello board
     Verify Board Updated
     Delete Board
     Verify Board Not Exists
+
+CRUD Operations for Labels on Trello Board 
+    Create New Board       
+    Create Label on Existing Board
+    Verify Label Exists with Correct Data
+    Update Label Color
+    Verify Label Color Updated and Nothing Else Changed
+    Create Second Label on Existing Board    
+    Delete First Label
+    Verify First Label Deleted and Second Exist
+    Delete Board
+    Verify Both labels Not Exists
+    Verify Create Label on Not Existing Board Is Not Possible
 
 Negative Test - Update Not Existing Board
     Update Not Existing Board
